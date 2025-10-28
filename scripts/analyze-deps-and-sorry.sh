@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Analyze Lean module indegrees from a DOT import graph and count non-comment
+# Analyze Lean module indegrees from a DOT import graph, compute each node's
+# total number of unique ancestors (transitive in-links), and count non-comment
 # `sorry` occurrences per module, then merge and sort the results.
 #
 # Outputs:
-# - scripts/module_indegree_sorry.csv (module,indegree,sorry_count)
-#   sorted by (indegree ASC, sorry_count DESC)
+# - scripts/module_indegree_sorry.csv (module,indegree,ancestor_count,sorry_count)
+#   sorted by (ancestor_count ASC, sorry_count DESC)
 #
 # Intermediate files (e.g., import_graph.dot, module_indegree.csv, sorry_counts.csv)
 # are removed automatically on exit; only the final CSV remains.
@@ -23,6 +24,8 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 DOT_FILE="import_graph.dot"
 INDEGREE_CSV="module_indegree.csv"
 SORRY_CSV="sorry_counts.csv"
+# Ancestor counts derived from DOT via scripts/unique-inlinks.sh
+ANCESTOR_CSV="module_ancestors.csv"
 # Final output path under scripts/
 MERGED_CSV="${SCRIPT_DIR}/module_indegree_sorry.csv"
 
@@ -32,9 +35,9 @@ CREATED_DOT=0
 # Ensure cleanup of intermediates; keep only the final merged CSV
 cleanup() {
   # Remove temporary files if present
-  rm -f "${INDEGREE_CSV}.tmp" "${SORRY_CSV}.tmp" 2>/dev/null || true
+  rm -f "${INDEGREE_CSV}.tmp" "${SORRY_CSV}.tmp" "${ANCESTOR_CSV}.tmp" 2>/dev/null || true
   # Remove intermediate CSVs produced by this run
-  rm -f "${INDEGREE_CSV}" "${SORRY_CSV}" 2>/dev/null || true
+  rm -f "${INDEGREE_CSV}" "${SORRY_CSV}" "${ANCESTOR_CSV}" 2>/dev/null || true
   # Remove DOT only if we generated it in this run
   if [[ "${CREATED_DOT}" -eq 1 ]]; then
     rm -f "${DOT_FILE}" 2>/dev/null || true
@@ -46,7 +49,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-echo "[1/3] Generating DOT graph: lake exe graph --to ${TARGET} > ${DOT_FILE}"
+echo "[1/4] Generating DOT graph: lake exe graph --to ${TARGET} > ${DOT_FILE}"
 if command -v lake >/dev/null 2>&1; then
   lake exe graph --to "${TARGET}" > "${DOT_FILE}"
   CREATED_DOT=1
@@ -59,7 +62,7 @@ else
   fi
 fi
 
-echo "[2/3] Parsing DOT and computing indegrees -> ${INDEGREE_CSV}"
+echo "[2/4] Parsing DOT and computing indegrees -> ${INDEGREE_CSV}"
 
 # AWK to parse Graphviz DOT for a digraph where edges look like:
 #   "A.B" -> "C.D";
@@ -118,7 +121,22 @@ awk -v OFS="," '
 } > "${INDEGREE_CSV}"
 rm -f "${INDEGREE_CSV}.tmp"
 
-echo "[3/3] Counting non-comment 'sorry' per module -> ${SORRY_CSV}"
+echo "[3/4] Computing unique ancestor counts from DOT -> ${ANCESTOR_CSV}"
+# Use the existing helper to compute unique in-links (all ancestors) per node
+if [[ -x "${SCRIPT_DIR}/unique-inlinks.sh" ]]; then
+  "${SCRIPT_DIR}/unique-inlinks.sh" "${DOT_FILE}" > "${ANCESTOR_CSV}.tmp"
+else
+  # Fall back to invoking via shell if not executable
+  bash "${SCRIPT_DIR}/unique-inlinks.sh" "${DOT_FILE}" > "${ANCESTOR_CSV}.tmp"
+fi
+# Transform header to align with other CSVs and sort deterministically by module
+{
+  echo "module,ancestor_count"
+  tail -n +2 "${ANCESTOR_CSV}.tmp" | awk -F, -v OFS="," '{ print $1, $2 }' | sort -t, -k1,1
+} > "${ANCESTOR_CSV}"
+rm -f "${ANCESTOR_CSV}.tmp"
+
+echo "[4/4] Counting non-comment 'sorry' per module -> ${SORRY_CSV}"
 
 # AWK filter to strip Lean comments (line comments with -- and nested block comments /- ... -/)
 # and then count tokenized occurrences of the word "sorry".
@@ -177,29 +195,33 @@ rm -f "${SORRY_CSV}.tmp"
 
 echo "Merging and sorting -> ${MERGED_CSV}"
 
-# Full outer join on module, defaulting missing counts to 0. Then sort (indegree ASC, sorry DESC).
-awk -F, -v OFS="," '
-  FNR==1 && NR==1 { next }               # skip header of first file here; we will print our own later
-  FNR==NR {                               # read module_indegree.csv
+# Full outer join on module, defaulting missing counts to 0. Then sort (ancestor_count ASC, sorry DESC).
+awk -F, -v OFS="," -v INFILE="${INDEGREE_CSV}" -v ANCFILE="${ANCESTOR_CSV}" -v SCFILE="${SORRY_CSV}" '
+  FILENAME==INFILE {
     if (FNR>1) indeg[$1]=$2
     next
   }
-  FNR==1 { next }                         # skip header of sorry_counts.csv
-  {
-    sc[$1]=$2; seen[$1]=1
+  FILENAME==ANCFILE {
+    if (FNR>1) anc[$1]=$2
+    next
+  }
+  FILENAME==SCFILE {
+    if (FNR>1) { sc[$1]=$2; seen[$1]=1 }
+    next
   }
   END {
-    print "module","indegree","sorry_count"
-    # union of keys from indeg and sc
+    print "module","indegree","ancestor_count","sorry_count"
     for (m in indeg) { seen[m]=1 }
+    for (m in anc) { seen[m]=1 }
     for (m in seen) {
       i = (m in indeg) ? indeg[m] : 0
+      a = (m in anc) ? anc[m] : 0
       s = (m in sc) ? sc[m] : 0
-      print m, i, s
+      print m, i, a, s
     }
   }
-' "${INDEGREE_CSV}" "${SORRY_CSV}" | (
-  read -r header; echo "$header"; sort -t, -k2,2n -k3,3nr
+' "${INDEGREE_CSV}" "${ANCESTOR_CSV}" "${SORRY_CSV}" | (
+  read -r header; echo "$header"; sort -t, -k3,3n -k4,4nr
 ) > "${MERGED_CSV}"
 
 echo "Done. Output written to: ${MERGED_CSV}"
