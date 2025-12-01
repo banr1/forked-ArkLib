@@ -43,4 +43,4 @@ mathlib のスタイルガイド（`CONTRIBUTING.md` 参照）に従う: イン�
 PR では短い概要、関連 issue へのリンク（`Fixes #123`）、実行したコマンド（build/lint）を列挙し、
 blueprint やドキュメント更新があれば記載する。描画結果が変わる資産（例: `home_page/`）を
 変更しない限りスクリーンショットは不要。新しいモジュールは `ArkLib.lean` に import し、
-文書化する。*** End Patch
+文書化する。
