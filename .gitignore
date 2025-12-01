@@ -32,3 +32,6 @@
 
 # Generated dependency analysis files
 /dependency_graphs/
+
+# Node modules
+node_modules/
