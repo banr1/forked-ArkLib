@@ -7,7 +7,7 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
       '@openai/codex':
         specifier: ^0.63.0
         version: 0.63.0

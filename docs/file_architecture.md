@@ -215,4 +215,3 @@ These files are only relevant if you are using the JavaScript tooling; they are 
 - To keep imports and style consistent, use the scripts in `scripts/` (`check-imports.sh`, `lint-style.sh`) and update `ArkLib.lean` when you add new modules.
 
 With this structure in mind, you can treat `ArkLib/` as the formal core of the project, `blueprint/` and the background/roadmap files as the narrative layer, and `scripts/` plus the dependency graphs as the tooling that keeps everything coherent.
-
