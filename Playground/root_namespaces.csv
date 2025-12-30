@@ -184,6 +184,7 @@ BAll
 BCIKS20AppendixA
 BEq
 BEx
+BF128Ghash
 BLS12_377
 BLS12_381
 BN254
@@ -225,6 +226,7 @@ BilinearForm
 Bimod
 Bimon_
 Bimon_Class
+BinaryField
 BinaryTower
 BinaryTree
 Bind
@@ -274,6 +276,7 @@ BumpCovering
 Bundle
 ByteArray
 ByteDomainSeparator
+CA_split_rowwise_implies_CA
 CFC
 CFilter
 CHSH_inequality_of_comm
@@ -294,6 +297,7 @@ CancelCommMonoidWithZero
 CancelDenoms
 CancelMonoid
 CancelMonoidWithZero
+CanonicalEuclideanDomain
 CanonicalSpongeState
 CanonicallyLinearOrderedAddCommMonoid
 CanonicallyLinearOrderedCommMonoid
@@ -623,6 +627,7 @@ DFunEquiv
 DFunLike
 DMatrix
 DSL
+D_card_le_e_implies_interleaved_correlatedAgreement₂
 Decidable
 DecompositionMonoid
 DegLex
@@ -1175,7 +1180,6 @@ Int64
 Int8
 IntCast
 Inter
-InterleavedCode
 IntermediateField
 Interval
 IntervalIntegrable
@@ -2273,6 +2277,7 @@ Pow
 PowTwoRepr
 PowerBasis
 PowerSeries
+Pr_le_Pr_of_implies
 PrattCertificate
 PrattCertificate'
 PrattPart
@@ -2395,6 +2400,11 @@ R1Space
 RCLike
 REPred
 RSGenerator
+R_star
+R_star_star
+R_star_star_filter_columns_not_in_D
+R_star_star_lower_bound
+R_star_star_upper_bound
 Rack
 Rand
 Random
@@ -2419,6 +2429,7 @@ ReduceClaim
 Reduction
 ReedSolomon
 ReedSolomonCode
+ReedSolomon_ProximityGapAffineLines_UniqueDecoding
 ReflBEq
 Reflexive
 RegularExpression
@@ -2534,6 +2545,7 @@ Secp256k1
 SelbergSieve
 SelectInsertParams
 SelectInsertParamsClass
+SelectableType
 SemiNormedGrp
 SemiNormedGrp₁
 SemiRingCat
@@ -3040,6 +3052,7 @@ YoungDiagram
 ZFSet
 ZLattice
 ZMod
+ZMod2Poly
 ZModModule
 ZNum
 ZSpan
@@ -3196,11 +3209,14 @@ affineIndependent_iff_linearIndependent_vsub
 affineIndependent_of_ne_of_mem_of_mem_of_notMem
 affineIndependent_smul
 affineIndependent_vadd
+affineLineEvaluation
 affineSegment
 affineSpan
 affineSpan_eq_bot
 affineSpan_eq_top_iff_nonempty_of_subsingleton
 affineSpan_le_toAffineSubspace_span
+affineWord_close_to_affineInterleavedCodeword
+affine_gaps_lifted_to_interleaved_codes
 aleph0_le_rank_of_isEmpty_oreSet
 alexDiscEquivPreord
 algEquivEquivAlgHom
@@ -3489,6 +3505,8 @@ cancelDenominatorsAt
 cantorSet
 cantorSet_eq_union_halves
 cardQuot_pow_of_prime
+card_agreeing_cells_in_D_le
+card_agreeing_cells_notin_D
 card_derangements_fin_add_two
 card_derangements_fin_eq_numDerangements
 card_linearIndependent
@@ -3794,6 +3812,7 @@ constFormalMultilinearSeries
 const_div_involutive
 constant_of_derivWithin_zero
 constant_of_has_deriv_right_zero
+constructInterleavedCodewordsAndRowWiseCA
 contDiffAt_infty
 contDiffAt_norm
 contDiffAt_of_subsingleton
@@ -4045,6 +4064,7 @@ convex_vadd
 coprime_card_of_isCyclic_prod
 cornersTheoremBound
 corners_theorem_nat
+correlatedAgreement_of_mem_R_star_tensor
 count_associates_factors_eq
 count_span_normalizedFactors_eq
 countable_cover_nhds
@@ -4259,6 +4279,7 @@ directedOn_univ_iff
 directed_of₃
 direction_affineSpan
 dirichletSummandHom
+disagreementSet
 discreteTopology_iff_locallyInjective
 discreteTopology_iff_nhds
 discreteTopology_iff_nhds_ne
@@ -4305,6 +4326,7 @@ disjointed_eq_inf_compl
 disjointed_partialSups
 disjointed_succ
 dist_add_dist_eq_iff
+dist_affineCombination_le_dist_interleaved₂
 dist_algebraMap
 dist_algebraMap'
 dist_center_homothety
@@ -4322,6 +4344,8 @@ dist_nonneg
 dist_pi_eq_iff
 dist_pos
 dist_prod_prod_le_of_le
+dist_row_le_dist_ToInterleavedCode
+dist_row_le_dist_ToInterleavedWord
 dist_smul_add_one_sub_smul_le
 distanceLE_mvPolynomial_degreeLE
 distanceLE_polynomial_degreeLE
@@ -4377,6 +4401,7 @@ divp
 divp_eq_divp_iff
 divp_eq_iff_mul_eq
 divp_left_inj
+do_two_uniform_sampling_eq_uniform_prod
 dotProduct
 dotProductEquiv
 dotProduct_self_eq_zero
@@ -4421,6 +4446,8 @@ eHolderNorm_eq_top
 eHolderNorm_eq_zero
 eHolderNorm_lt_top
 eVariationOn
+e_mul_R_div_R_sub_1_lt_e_add_1_real
+e_ε_correlatedAgreementAffineLinesNat
 ediam_smul₀
 edist_eq_zero
 edist_le_coe
@@ -4507,6 +4534,7 @@ eq_rec_on_bijective
 eq_self_iff_true
 eq_separableClosure_iff
 eq_singleton_prod_subset_idRel
+eq_splitHalf_iff_merge_eq
 eq_wittStructureInt
 eq_zero_of_neg_eq
 eq_zero_or_locallyCompactSpace_of_support_subset_isCompact_of_group
@@ -4528,6 +4556,7 @@ equicontinuous_empty
 equicontinuous_finite
 equicontinuous_iff_continuous
 equicontinuous_restrict_iff
+equivFinFunSplitLast
 equivIsoIso
 equivOfPiLEquivPi
 equivOfSubsingletonOfSubsingleton
@@ -5642,6 +5671,7 @@ instEstimatorDataProdNatMkMkLevenshteinLengthLevenshteinEstimator'
 instEstimatorMkLevenshteinLevenshteinEstimatorOfWellFoundedGTSubtypeProdNatLe
 instEstimatorNatHAddThunkProd
 instEstimatorPureTrivial
+instExpCharOfAlgebra
 instFaithfulSMulNatOfCharZero
 instFiniteRangeNatUnifSpec
 instFiniteZModUnits
@@ -5935,6 +5965,7 @@ instRpcEncodableCalcParams
 instRpcEncodableGoToModuleLinkProps
 instRpcEncodableSelectInsertParams
 instSMulContinuousMapSubtypeBoundedContinuousFunctionMemTwoSidedIdealCompactlySupported
+instSelectableTypeFinFunc
 instSelfSliceSubarrayDataSubarray
 instSemigroupLex
 instSemigroupOrderDual
@@ -6077,6 +6108,7 @@ interior_pi_set
 interior_prod_eq
 interior_union_isClosed_of_interior_empty
 interior_union_of_disjoint_closure
+interleaved_affine_gaps_imply_tensor_gaps
 intermediate_value_univ₂_eventually₁
 intermediate_value_univ₂_eventually₂
 intervalIntegrable_const
@@ -6723,6 +6755,7 @@ joinM_map_joinM
 joinM_map_map
 joinM_map_pure
 joinedIn_univ
+jointProximity₂_affineShift_implies_jointProximity₂
 ker_nhds_eq_specializes
 kroneckerTMulLinearEquiv
 krullTopology_mem_nhds_one_iff_of_normal
@@ -7302,6 +7335,7 @@ mem_vadd_const_affineSegment
 mem_vsub_const_affineSegment
 mem_zpowers_of_prime_card
 memoFix
+mergeHalfRowWiseInterleavedWords
 meromorphicNFAt_inv
 meromorphicNFAt_toMeromorphicNFAt
 meromorphicOrderAt
@@ -7537,6 +7571,9 @@ mul_two_add_bit_lt_two_pow
 mul_upperClosure
 mul_zpow
 mul_zsmul'
+multilinearCombine
+multilinearCombine_recursive_form
+multilinearCombine₁_eq_affineLineEvaluation
 multilinearCurryLeftEquiv
 multilinearCurryRightEquiv
 multiple_mem_span_of_mem_localization_span
@@ -8256,6 +8293,14 @@ probOutput_bind_congr_eq_add
 probOutput_le_one
 probOutput_lt_top
 probOutput_ne_top
+probShadedAffineCombInterleavedCodeword_gt_threshold_iff
+prob_R_star_gt_threshold
+prob_marginalization_first_of_prod
+prob_schwartz_zippel_mv_polynomial
+prob_split_uniform_sampling_of_equiv_prod
+prob_tsum_form_singleton
+prob_uniform_eq_card_filter_div_card
+prob_uniform_singleton_finFun_eq
 prodChartedSpace
 prodEquivPiFinTwo
 prodXSubSMul
@@ -8346,6 +8391,8 @@ recursiveIn_empty_iff_partrec
 reduceCtorEq
 reduceDIte
 reduceIte
+reedSolomon_multilinearCorrelatedAgreement
+reedSolomon_multilinearCorrelatedAgreement_Nat
 reesAlgebra
 refinement_of_locallyCompact_sigmaCompact_of_nhds_basis
 refinement_of_locallyCompact_sigmaCompact_of_nhds_basis_set
@@ -8689,6 +8736,7 @@ spectrum_star_mul_self_nonneg
 sphere_ext_iff
 sphere_prod
 spinGroup
+splitHalfRowWiseInterleavedWords
 sq_dvd_add_pow_sub_sub
 sq_eq_one_iff
 sq_eq_sq_iff_abs_eq_abs
@@ -9540,5 +9588,6 @@ zsmul_zero
 "«term⨆_,_»"
 "«term⨍_In_.._,_»"
 «term𝕜≥0»
+δ_ε_multilinearCorrelatedAgreement_Nat
 εNFA
 ωCPO
